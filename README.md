@@ -1,5 +1,5 @@
 # mips-cpu
-Verilog implementation of a MIPS-R2000 CPU, based on [this book](<https://www.elsevier.com/books/computer-organization-and-design-mips-edition/patterson/978-0-12-407726-3>)
+Verilog implementation of a MIPS-R2000 CPU, based on the concept in [this book](<https://www.elsevier.com/books/computer-organization-and-design-mips-edition/patterson/978-0-12-407726-3>)
 
 Currently supported instructions:
 
