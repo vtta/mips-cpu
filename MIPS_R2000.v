@@ -6,24 +6,15 @@ module MIPS_R2000(CLK,RST);
 
     // InstructionMemory
     wire [31:0] instr;
-    wire [4:0]  imAdr;
-    wire [5:0]  Op;
-    wire [5:0]  Funct;
-    wire [4:0]  rs;
-    wire [4:0]  rt;
-    wire [4:0]  rd;
-    wire [4:0]  shamt;
-    wire [25:0] JumpTarget;
-    assign Op    = instr[31:26];
-    assign rs    = instr[25:21];
-    assign rt    = instr[20:16];
-    assign rd    = instr[15:11];
-    assign shamt = instr[10:6];
-    assign Funct = instr[5:0];
-    assign JumpTarget = instr[25:0];
-    // PC
     wire [31:0] pcOut;
-    assign imAdr = pcOut[5:2];
+    wire [4:0]  imAddr  = pcOut[5:2];
+    wire [5:0]  Op      = instr[31:26];
+    wire [4:0]  rs      = instr[25:21];
+    wire [4:0]  rt      = instr[20:16];
+    wire [4:0]  rd      = instr[15:11];
+    wire [4:0]  shamt   = instr[10:6];
+    wire [5:0]  Funct   = instr[5:0];
+    wire [25:0] JumpTarget = instr[25:0];
     // GPR
     wire [4:0]  gprWriteRegister;
     wire [31:0] gprDataIn;
@@ -51,25 +42,28 @@ module MIPS_R2000(CLK,RST);
     wire    Mem2Reg;
     wire    ALUSrc;
     wire    ExtOp;
-    wire    PCSrc;
-    assign PCSrc = (Branch&&zero)?1:0;
     wire [1:0]  ALUOp;
 
 
 
 
-    // PC instantiation
-    PCU U_PCU(.PC(pcOut),
-        .RST(RST),
-        .PCSrc(PCSrc),
-        .CLK(CLK),
-        .Adress(extDataOut) );
+    PCU U_PCU (
+        .RST          (RST       ),
+        .CLK          (CLK       ),
+        .Branch       (Branch    ),
+        .Jump         (Jump      ),
+        .ALUZero      (zero      ),
+        .Op           (Op        ),
+        .JumpTarget   (JumpTarget),
+        .BranchAddress(extDataOut),
+        .PCRegDataOut (pcOut     )
+    );
 
 
 
     // Instruction Memory instantiation
     InstructionMemory U_InstructionMemory(.Instruction(instr),
-        .ImAdress(imAdr) );
+        .IMAdress(imAddr) );
 
 
 

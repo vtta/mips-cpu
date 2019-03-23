@@ -1,33 +1,54 @@
 `include "signal_def.v"
 
-module PCU(PC,RST,PCSrc,CLK,Adress);
+module PCU(
+    input RST,
+    input CLK,
+    input Jump,
+    input Branch,
+    input ALUZero,
+    input [5:0]  Op,
+    input [25:0] JumpTarget,
+    input [31:0] BranchAddress,
+    output [31:0] PCRegDataOut);
+
+reg [31:0] PC;
+
+initial begin
+    // PC = 32'h0000_3000;
+end
+
+wire [31:0] PCRegDataIn;
+wire [31:0] PCRegDataOut = PC;
+
+wire [31:0] PCAdd4Out = PCRegDataOut + 4;
+wire [31:0] JumpAddress;
+assign JumpAddress[31:28]   = PCAdd4Out[31:28];
+assign JumpAddress[27:2]    = JumpTarget[25:0];
+assign JumpAddress[1:0]     = 2'b00;
+
+wire [31:0] BranchAddressALUOut = PCAdd4Out + (BranchAddress<<2);
+wire BranchAddressMuxSelect = Branch & ALUZero;
 
 
-input   RST;
-input   PCSrc;
-input   CLK;
-input   [31:0] Adress;
+wire [31:0] Mux2Mux;
+Mux32_2x1 PC_BranchAddressMux(.select(BranchAddressMuxSelect), 
+          .in0(PCAdd4Out), 
+          .in1(BranchAddressALUOut), 
+          .out(Mux2Mux));
+Mux32_2x1 PC_JumpAddressMux(.select(Jump), 
+          .in0(Mux2Mux), 
+          .in1(JumpAddress), 
+          .out(PCRegDataIn));
 
-output reg[31:0] PC;
+always@(posedge RST) begin
+    PC <= 32'h0000_3000;
+end
 
-reg [31:0] aluResAddr;
 
-always@(posedge CLK or posedge RST) begin
-    if(RST == 1) begin
-        PC <= 32'h0000_3000;
-    end
-    PC = PC+4;
-    for(int i=2;i<32;++i) begin
-        aluResAddr[i] = Adress[i-2];
-    end
-    aluResAddr[1:0] = 2'b00;
-    aluResAddr = aluResAddr + PC;
-    PC=(PCSrc)?aluResAddr:PC;
+always@(posedge CLK) begin
+    PC = PCRegDataIn;
 end
 
 
 
-
 endmodule
-
-

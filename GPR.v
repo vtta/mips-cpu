@@ -21,7 +21,7 @@ begin
         gprRegisters[WriteRegisterSelect] = WriteData;
     end
     $display("=====================================");
-    for(int i=0;i<4;++i) begin
+    for(int i=0;i<8;++i) begin
         $display("R[%2d-%2d]\t%8X\t%8X\t%8X\t%8X",i*4,i*4+3, gprRegisters[i*4+0], gprRegisters[i*4+1], gprRegisters[i*4+2], gprRegisters[i*4+3]);
     end
     if(RegWrite) begin
