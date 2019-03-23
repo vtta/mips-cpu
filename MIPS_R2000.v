@@ -13,12 +13,14 @@ module MIPS_R2000(CLK,RST);
     wire [4:0]  rt;
     wire [4:0]  rd;
     wire [4:0]  shamt;
+    wire [25:0] JumpTarget;
     assign Op    = instr[31:26];
     assign rs    = instr[25:21];
     assign rt    = instr[20:16];
     assign rd    = instr[15:11];
     assign shamt = instr[10:6];
     assign Funct = instr[5:0];
+    assign JumpTarget = instr[25:0];
     // PC
     wire [31:0] pcOut;
     assign imAdr = pcOut[5:2];
