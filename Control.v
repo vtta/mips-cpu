@@ -52,6 +52,48 @@ begin
                     ExtOp       = `EXT_ZERO;
                 end // SUBU
 
+                `INSTR_SLL_FUNCT:
+                begin
+                    RegDst      = `REG_DST_RD;
+                    // ExtOp       = `EXT_SIGNED;
+                    ALUSrc      = `ALU_SRC_REG;
+                    ALUOp       = `ALUOp_SLL;
+                    Mem2Reg     = 0;
+                    RegWrite    = 1;
+                    MemRead     = 0;
+                    MemWrite    = 0;
+                    Branch      = 0;
+                    Jump        = 0;
+                end // SLL
+
+                `INSTR_SRL_FUNCT:
+                begin
+                    RegDst      = `REG_DST_RD;
+                    // ExtOp       = `EXT_SIGNED;
+                    ALUSrc      = `ALU_SRC_REG;
+                    ALUOp       = `ALUOp_SRL;
+                    Mem2Reg     = 0;
+                    RegWrite    = 1;
+                    MemRead     = 0;
+                    MemWrite    = 0;
+                    Branch      = 0;
+                    Jump        = 0;
+                end // SRL
+
+                `INSTR_SLT_FUNCT:
+                begin
+                    RegDst      = `REG_DST_RD;
+                    // ExtOp       = `EXT_SIGNED;
+                    ALUSrc      = `ALU_SRC_REG;
+                    ALUOp       = `ALUOp_SLT;
+                    Mem2Reg     = 0;
+                    RegWrite    = 1;
+                    MemRead     = 0;
+                    MemWrite    = 0;
+                    Branch      = 0;
+                    Jump        = 0;
+                end // SLT
+
             endcase
         end // RTYPE
 
@@ -68,6 +110,34 @@ begin
             Jump        = 0;
             ExtOp       = `EXT_SIGNED;
         end //BEQ
+
+        `INSTR_BNE_OP:
+        begin
+            // RegDst      = `REG_DST_RD;
+            ExtOp       = `EXT_SIGNED;
+            ALUSrc      = `ALU_SRC_REG;
+            ALUOp       = `ALUOp_BNE;
+            Mem2Reg     = 0;
+            RegWrite    = 0;
+            MemRead     = 0;
+            MemWrite    = 0;
+            Branch      = 1;
+            Jump        = 0;
+        end // BNE
+
+        `INSTR_SLTI_OP:
+        begin
+            RegDst      = `REG_DST_RT;
+            ExtOp       = `EXT_SIGNED;
+            ALUSrc      = `ALU_SRC_EXT;
+            ALUOp       = `ALUOp_SLTI;
+            Mem2Reg     = 0;
+            RegWrite    = 1;
+            MemRead     = 0;
+            MemWrite    = 0;
+            Branch      = 0;
+            Jump        = 0;
+        end // SLTT
 
         `INSTR_ORI_OP: // 0x0D
         begin
@@ -97,6 +167,20 @@ begin
             ExtOp       = `EXT_SIGNED;
         end //LW
 
+        `INSTR_LUI_OP:
+        begin
+            RegDst      = `REG_DST_RT;
+            ExtOp       = `EXT_SIGNED;
+            ALUSrc      = `ALU_SRC_EXT;
+            ALUOp       = `ALUOp_LUI;
+            Mem2Reg     = 1;
+            RegWrite    = 1;
+            MemRead     = 1;
+            MemWrite    = 0;
+            Branch      = 0;
+            Jump        = 0;
+        end //LUI
+
         `INSTR_SW_OP: // 0x2B
         begin
             RegDst      = `REG_DST_RT;
@@ -110,6 +194,20 @@ begin
             Jump        = 0;
             ExtOp       = `EXT_SIGNED;
         end // SW
+
+        `INSTR_J_OP:
+        begin
+            // RegDst      = `REG_DST_RD;
+            // ExtOp       = `EXT_SIGNED;
+            // ALUSrc      = `ALU_SRC_REG;
+            // ALUOp       = `ALUOp_BNE;
+            Mem2Reg     = 0;
+            RegWrite    = 0;
+            MemRead     = 0;
+            MemWrite    = 0;
+            Branch      = 1;
+            Jump        = 1;
+        end // J
 
     endcase
 end
