@@ -98,7 +98,8 @@ module MIPS_R2000(CLK,RST);
         .Zero(zero),
         .DataIn1(gprDataOut1),
         .DataIn2(aluDataIn2),
-        .ALUOp(ALUOp) );
+        .ALUOp(ALUOp),
+        .shamt(shamt) );
 
 
 
