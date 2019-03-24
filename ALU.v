@@ -21,7 +21,7 @@ begin
     case (ALUOp)
         `ALUOp_ADD:
             ALURes = DataIn1 + DataIn2;
-        `ALUOp_SUB, `ALUOp_BNE, `ALUOp_BEQ:
+        `ALUOp_SUB, `ALUOp_BNE:
             ALURes = DataIn1 - DataIn2;
         `ALUOp_MUL:
             ALURes = DataIn1 * DataIn2;
@@ -51,13 +51,16 @@ begin
             ALURes = ~(DataIn1 & DataIn2);
         `ALUOp_XNOR:
             ALURes = ~(DataIn1 ^ DataIn2);
+         `ALUOp_SLT:
+            ALURes = (DataIn1 < DataIn2);
     endcase
 
-    if(ALUOp==`ALUOp_BNE) begin
-        Zero = (ALURes)?1:0;
-    end else begin
-        Zero = (ALURes)?0:1;
-    end
+    case (ALUOp)
+        `ALUOp_BNE:
+            Zero = (ALURes)?1:0;
+        default:
+            Zero = (ALURes)?0:1;
+    endcase
 
 end
 

@@ -32,9 +32,9 @@
 -------------------------------------------
 | 0101  |   ALURes = A >> 1;
 -------------------------------------------
-| 0110  |   ALURes = A rotated left by 1;
+| 0110  |   ALURes = A rotated left by B;
 -------------------------------------------
-| 0111  |   ALURes = A rotated right by 1;
+| 0111  |   ALURes = A rotated right by B;
 -------------------------------------------
 | 1000  |   ALURes = A and B;
 -------------------------------------------
@@ -48,9 +48,9 @@
 -------------------------------------------
 | 1101  |   ALURes = A xnor B;
 -------------------------------------------
-| 1110  |   Zero   = 1 if A>B else 0;
+| 1110  |   Zero   = 1 if A!=B else 0;
 -------------------------------------------
-| 1111  |   Zero   = 1 if A=B else 0;
+| 1111  |   ALURes = 1 if A<B else 0;
 -----------------------------------------*/
 `define ALUOp_ADD   4'b0000
 `define ALUOp_SUB   4'b0001
@@ -67,11 +67,12 @@
 `define ALUOp_NAND  4'b1100
 `define ALUOp_XNOR  4'b1101
 `define ALUOp_BNE   4'b1110
-`define ALUOp_BEQ   4'b1111
+`define ALUOp_SLT   4'b1111
 
 `define ALUOp_ADDU  `ALUOp_ADD
 `define ALUOp_SUBU  `ALUOp_SUB
 `define ALUOp_ORI   `ALUOp_OR
 `define ALUOp_LW    `ALUOp_ADD
 `define ALUOp_SW    `ALUOp_ADD
+`define ALUOp_BEQ   `ALUOp_SUB
 
