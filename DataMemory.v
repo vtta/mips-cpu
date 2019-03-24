@@ -19,9 +19,9 @@ begin
     for(int i=0;i<4;++i) begin
         $display("M[%2d-%2d]\t%8X\t%8X\t%8X\t%8X",i*4,i*4+3, DataMemory[i*4+0], DataMemory[i*4+1], DataMemory[i*4+2], DataMemory[i*4+3]);
     end
-    $display("Mem Write\t       %1b",DMemW);
-    $display("Adderess\t%8X",DataAddr);
-    $display("Data In \t%8X",DataIn);
+    if(DMemW) begin
+        $display("M[ %4X]\t%8X", DataAddr, DataIn);
+    end
 
 end
 assign DataOut = DataMemory[DataAddr];
