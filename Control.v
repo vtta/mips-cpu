@@ -165,7 +165,7 @@ begin
             MemWrite    = 0;
             Branch      = 0;
             Jump        = 0;
-        end // SLTT
+        end // SLTI
 
         `INSTR_ORI_OP: // 0x0D
         begin
