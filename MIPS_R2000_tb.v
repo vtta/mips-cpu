@@ -10,10 +10,10 @@ module TESTBENCH;
         $dumpvars;
         $readmemh("Test_6_Instr.txt", MIPS_R2000_tb.U_InstructionMemory.IMem ) ;
         $monitor("PC\t\t%8X\nIR\t\t%8X\nClock\t\t%8X\n=====================================\n\n", MIPS_R2000_tb.U_PCU.PCRegDataOut, MIPS_R2000_tb.instr, clockCnt);
-        clk = 0 ;
+        clk = 1 ;
         rst = 0 ;
         #5 rst = 1;
-        #20 rst = 0;
+        #5 rst = 0;
         clockCnt = 0;
     end
 
