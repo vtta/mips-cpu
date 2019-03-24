@@ -20,54 +20,57 @@
 -------------------------------------------
 | ALUOp |   ALU Operation
 -------------------------------------------
-| 0000  |   ALURes = A + B;
+| 00000  |   ALURes = A + B;
 -------------------------------------------
-| 0001  |   ALURes = A - B;
+| 00001  |   ALURes = A - B;
 -------------------------------------------
-| 0010  |   ALURes = A * B;
+| 00010  |   ALURes = A * B;
 -------------------------------------------
-| 0011  |   ALURes = A / B;
+| 00011  |   ALURes = A / B;
 -------------------------------------------
-| 0100  |   ALURes = A << 1;
+| 00100  |   ALURes = A << 1;
 -------------------------------------------
-| 0101  |   ALURes = A >> 1;
+| 00101  |   ALURes = A >> 1;
 -------------------------------------------
-| 0110  |   ALURes = A rotated left by B;
+| 00110  |   ALURes = A rotated left by B;
 -------------------------------------------
-| 0111  |   ALURes = A rotated right by B;
+| 00111  |   ALURes = A rotated right by B;
 -------------------------------------------
-| 1000  |   ALURes = A and B;
+| 01000  |   ALURes = A and B;
 -------------------------------------------
-| 1001  |   ALURes = A or B;
+| 01001  |   ALURes = A or B;
 -------------------------------------------
-| 1010  |   ALURes = A xor B;
+| 01010  |   ALURes = A xor B;
 -------------------------------------------
-| 1011  |   ALURes = A nor B;
+| 01011  |   ALURes = A nor B;
 -------------------------------------------
-| 1100  |   ALURes = A nand B;
+| 01100  |   ALURes = A nand B;
 -------------------------------------------
-| 1101  |   ALURes = A xnor B;
+| 01101  |   ALURes = A xnor B;
 -------------------------------------------
-| 1110  |   Zero   = 1 if A!=B else 0;
+| 01110  |   Zero   = 1 if A!=B else 0;
 -------------------------------------------
-| 1111  |   ALURes = 1 if A<B else 0;
+| 01111  |   ALURes = 1 if A<B else 0;
+-------------------------------------------
+| 01111  |   ALURes = 1 if A<B else 0;
 -----------------------------------------*/
-`define ALUOp_ADD   4'b0000
-`define ALUOp_SUB   4'b0001
-`define ALUOp_MUL   4'b0010
-`define ALUOp_DIV   4'b0011
-`define ALUOp_SLL   4'b0100
-`define ALUOp_SRL   4'b0101
-`define ALUOp_SLR   4'b0110
-`define ALUOp_SRR   4'b0111
-`define ALUOp_AND   4'b1000
-`define ALUOp_OR    4'b1001
-`define ALUOp_XOR   4'b1010
-`define ALUOp_NOR   4'b1011
-`define ALUOp_NAND  4'b1100
-`define ALUOp_XNOR  4'b1101
-`define ALUOp_BNE   4'b1110
-`define ALUOp_SLT   4'b1111
+`define ALUOp_ADD   5'b00000
+`define ALUOp_SUB   5'b00001
+`define ALUOp_MUL   5'b00010
+`define ALUOp_DIV   5'b00011
+`define ALUOp_SLL   5'b00100
+`define ALUOp_SRL   5'b00101
+`define ALUOp_SLR   5'b00110
+`define ALUOp_SRR   5'b00111
+`define ALUOp_AND   5'b01000
+`define ALUOp_OR    5'b01001
+`define ALUOp_XOR   5'b01010
+`define ALUOp_NOR   5'b01011
+`define ALUOp_NAND  5'b01100
+`define ALUOp_XNOR  5'b01101
+`define ALUOp_BNE   5'b01110
+`define ALUOp_SLT   5'b01111
+`define ALUOp_LUI   5'b10001
 
 `define ALUOp_ADDU  `ALUOp_ADD
 `define ALUOp_SUBU  `ALUOp_SUB
@@ -75,4 +78,4 @@
 `define ALUOp_LW    `ALUOp_ADD
 `define ALUOp_SW    `ALUOp_ADD
 `define ALUOp_BEQ   `ALUOp_SUB
-
+`define ALUOp_SLTI  `ALUOp_SLT

@@ -15,7 +15,7 @@ output reg      MemWrite;
 output reg      RegWrite;
 output reg      ALUSrc;
 output reg      ExtOp;
-output reg[3:0] ALUOp;
+output reg[4:0] ALUOp;
 
 always@(OpCode or Funct)
 begin
