@@ -173,9 +173,9 @@ begin
             ExtOp       = `EXT_SIGNED;
             ALUSrc      = `ALU_SRC_EXT;
             ALUOp       = `ALUOp_LUI;
-            Mem2Reg     = 1;
+            Mem2Reg     = 0;
             RegWrite    = 1;
-            MemRead     = 1;
+            MemRead     = 0;
             MemWrite    = 0;
             Branch      = 0;
             Jump        = 0;
