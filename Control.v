@@ -24,6 +24,20 @@ begin
         begin
 
             case (Funct)
+                `INSTR_ADD_FUNCT:
+                begin
+                    RegDst      = `REG_DST_RD;
+                    ExtOp       = `EXT_SIGNED;
+                    ALUSrc      = `ALU_SRC_REG;
+                    ALUOp       = `ALUOp_ADD;
+                    Mem2Reg     = 0;
+                    RegWrite    = 1;
+                    MemRead     = 0;
+                    MemWrite    = 0;
+                    Branch      = 0;
+                    Jump        = 0;
+                end // ADD
+
                 `INSTR_ADDU_FUNCT:
                 begin
                     RegDst      = `REG_DST_RD;
@@ -37,6 +51,20 @@ begin
                     Jump        = 0;
                     ExtOp       = `EXT_ZERO;
                 end // ADDU
+
+                `INSTR_SUB_FUNCT:
+                begin
+                    RegDst      = `REG_DST_RD;
+                    ExtOp       = `EXT_SIGNED;
+                    ALUSrc      = `ALU_SRC_REG;
+                    ALUOp       = `ALUOp_SUB;
+                    Mem2Reg     = 0;
+                    RegWrite    = 1;
+                    MemRead     = 0;
+                    MemWrite    = 0;
+                    Branch      = 0;
+                    Jump        = 0;
+                end // SUB
 
                 `INSTR_SUBU_FUNCT:
                 begin
