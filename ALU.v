@@ -14,7 +14,7 @@ initial begin
     ALURes = 0;
 end
 
-always@(DataIn1 or DataIn2 or ALUOp) begin
+always@(DataIn1 or DataIn2 or ALUOp or shamt) begin
 
     case(ALUOp)
         `ALUOp_ADD:
@@ -49,8 +49,19 @@ always@(DataIn1 or DataIn2 or ALUOp) begin
         ALURes = ~(DataIn1 & DataIn2);
         `ALUOp_XNOR:
         ALURes = ~(DataIn1 ^ DataIn2);
-        `ALUOp_SLT:
-        ALURes = (DataIn1 < DataIn2);
+        `ALUOp_SLT: begin
+            if (DataIn1[31] != DataIn2[31]) begin
+                if (DataIn1[31] > DataIn2[31])
+                    ALURes = 1;
+                else
+                    ALURes = 0;
+            end else begin
+                if (DataIn1 < DataIn2)
+                    ALURes = 1;
+                else
+                    ALURes = 0;
+            end // if !=
+        end // SLT
         `ALUOp_LUI: begin
             ALURes[15:0]  = 0;
             ALURes[31:16] = DataIn2[15:0];
