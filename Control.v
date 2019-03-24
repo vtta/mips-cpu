@@ -15,7 +15,7 @@ output reg      MemWrite;
 output reg      RegWrite;
 output reg      ALUSrc;
 output reg      ExtOp;
-output reg[1:0] ALUOp;
+output reg[3:0] ALUOp;
 
 always@(OpCode or Funct)
 begin
@@ -33,7 +33,7 @@ begin
                     MemRead     = 0;
                     MemWrite    = 0;
                     Branch      = 0;
-                    ALUOp       = `ALU_ADD_OP;
+                    ALUOp       = `ALUOp_ADDU;
                     Jump        = 0;
                     ExtOp       = `EXT_ZERO;
                 end // ADDU
@@ -47,7 +47,7 @@ begin
                     MemRead     = 0;
                     MemWrite    = 0;
                     Branch      = 0;
-                    ALUOp       = `ALU_SUB_OP;
+                    ALUOp       = `ALUOp_SUBU;
                     Jump        = 0;
                     ExtOp       = `EXT_ZERO;
                 end // SUBU
@@ -64,7 +64,7 @@ begin
             MemRead     = 0;
             MemWrite    = 0;
             Branch      = 1;
-            ALUOp       = `ALU_SUB_OP;
+            ALUOp       = `ALUOp_BEQ;
             Jump        = 0;
             ExtOp       = `EXT_SIGNED;
         end //BEQ
@@ -78,7 +78,7 @@ begin
             MemRead     = 0;
             MemWrite    = 0;
             Branch      = 0;
-            ALUOp       = `ALU_OR_OP;
+            ALUOp       = `ALUOp_ORI;
             Jump        = 0;
             ExtOp       = `EXT_ZERO;
         end // ORI
@@ -92,7 +92,7 @@ begin
             MemRead     = 1;
             MemWrite    = 0;
             Branch      = 0;
-            ALUOp       = `ALU_ADD_OP;
+            ALUOp       = `ALUOp_LW;
             Jump        = 0;
             ExtOp       = `EXT_SIGNED;
         end //LW
@@ -106,7 +106,7 @@ begin
             MemRead     = 0;
             MemWrite    = 1;
             Branch      = 0;
-            ALUOp       = `ALU_ADD_OP;
+            ALUOp       = `ALUOp_SW;
             Jump        = 0;
             ExtOp       = `EXT_SIGNED;
         end // SW

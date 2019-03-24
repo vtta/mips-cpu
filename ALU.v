@@ -4,7 +4,7 @@ module ALU(ALURes,Zero,DataIn1,DataIn2,ALUOp);
 
 input   [31:0]      DataIn1;
 input   [31:0]      DataIn2;
-input   [1:0]       ALUOp;
+input   [3:0]       ALUOp;
 
 output  reg[31:0]   ALURes;
 output  reg         Zero;
@@ -19,15 +19,45 @@ always@(DataIn1 or DataIn2 or ALUOp)
 begin
 
     case (ALUOp)
-        `ALU_ADD_OP:
-            ALURes = DataIn1+DataIn2;
-        `ALU_SUB_OP:
-            ALURes = DataIn1-DataIn2;
-        `ALU_OR_OP:
-            ALURes = DataIn1|DataIn2;
+        `ALUOp_ADD:
+            ALURes = DataIn1 + DataIn2;
+        `ALUOp_SUB, `ALUOp_BNE, `ALUOp_BEQ:
+            ALURes = DataIn1 - DataIn2;
+        `ALUOp_MUL:
+            ALURes = DataIn1 * DataIn2;
+        `ALUOp_DIV:
+            ALURes = DataIn1 / DataIn2;
+        `ALUOp_SLL:
+            ALURes = DataIn1 << DataIn2;
+        `ALUOp_SRL:
+            ALURes = DataIn1 >> DataIn2;
+        `ALUOp_SLR:
+            for (int i = 0; i < 31; i++) begin
+                ALURes[i] = DataIn1[(i+DataIn2)%32];
+            end
+        `ALUOp_SRR:
+            for (int i = 0; i < 31; i++) begin
+                ALURes[i] = DataIn1[(i-DataIn2+32)%32];
+            end
+        `ALUOp_AND:
+            ALURes = DataIn1 & DataIn2;
+        `ALUOp_OR:
+            ALURes = DataIn1 | DataIn2;
+        `ALUOp_XOR:
+            ALURes = DataIn1 ^ DataIn2;
+        `ALUOp_NOR:
+            ALURes = ~(DataIn1 | DataIn2);
+        `ALUOp_NAND:
+            ALURes = ~(DataIn1 & DataIn2);
+        `ALUOp_XNOR:
+            ALURes = ~(DataIn1 ^ DataIn2);
     endcase
 
-    Zero = (ALURes)?0:1;
+    if(ALUOp==`ALUOp_BNE) begin
+        Zero = (ALURes)?1:0;
+    end else begin
+        Zero = (ALURes)?0:1;
+    end
 
 end
 

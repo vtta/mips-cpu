@@ -42,7 +42,7 @@ module MIPS_R2000(CLK,RST);
     wire    Mem2Reg;
     wire    ALUSrc;
     wire    ExtOp;
-    wire [1:0]  ALUOp;
+    wire [3:0]  ALUOp;
 
 
 
