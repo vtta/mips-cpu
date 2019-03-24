@@ -7,7 +7,7 @@ module MIPS_R2000(CLK,RST);
     // InstructionMemory
     wire [31:0] instr;
     wire [31:0] pcOut;
-    wire [4:0]  imAddr  = pcOut[5:2];
+    wire [9:0]  imAddr  = pcOut[11:2];
     wire [5:0]  Op      = instr[31:26];
     wire [4:0]  rs      = instr[25:21];
     wire [4:0]  rt      = instr[20:16];

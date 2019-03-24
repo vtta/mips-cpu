@@ -1,6 +1,6 @@
 
 module InstructionMemory(Instruction,IMAdress);
-input [4:0] IMAdress;
+input [9:0] IMAdress;
 output [31:0]  Instruction;
 
 reg [31:0]  IMem[1024:0];
