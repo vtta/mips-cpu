@@ -25,7 +25,7 @@ begin
         $display("R[%2d-%2d]\t%8X\t%8X\t%8X\t%8X",i*4,i*4+3, gprRegisters[i*4+0], gprRegisters[i*4+1], gprRegisters[i*4+2], gprRegisters[i*4+3]);
     end
     if(RegWrite) begin
-        $display("R[ %4X]\t%8X", WriteRegisterSelect, gprRegisters[WriteRegisterSelect]);
+        $display("R[ %4d]\t%8X", WriteRegisterSelect, gprRegisters[WriteRegisterSelect]);
     end
 end
 assign DataOut1 = gprRegisters[ReadRegister1];
