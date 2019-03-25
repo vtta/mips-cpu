@@ -122,6 +122,34 @@ begin
                     Jump        = 0;
                 end // SLT
 
+                `INSTR_AND_FUNCT:
+                begin
+                    RegDst      = `REG_DST_RD;
+                    // ExtOp       = `EXT_SIGNED;
+                    ALUSrc      = `ALU_SRC_REG;
+                    ALUOp       = `ALUOp_AND;
+                    Mem2Reg     = 0;
+                    RegWrite    = 1;
+                    MemRead     = 0;
+                    MemWrite    = 0;
+                    Branch      = 0;
+                    Jump        = 0;
+                end // AND
+
+                `INSTR_OR_FUNCT:
+                begin
+                    RegDst      = `REG_DST_RD;
+                    // ExtOp       = `EXT_SIGNED;
+                    ALUSrc      = `ALU_SRC_REG;
+                    ALUOp       = `ALUOp_OR;
+                    Mem2Reg     = 0;
+                    RegWrite    = 1;
+                    MemRead     = 0;
+                    MemWrite    = 0;
+                    Branch      = 0;
+                    Jump        = 0;
+                end // OR
+
             endcase
         end // RTYPE
 
