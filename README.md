@@ -3,7 +3,7 @@ Verilog implementation of a MIPS-R2000 CPU, based on the concept in [this book](
 
 Currently supported instructions:
 
-​	``` lw sw addu subu ori beq ```
+​	``` lw sw addu subu ori beq lui sll srl bne j slt slti and or ```
 
 
 
