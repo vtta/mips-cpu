@@ -17,7 +17,7 @@ module TESTBENCH (
         clockCnt = 0;
     end
 
-    always @ (posedge RST) begin
+    always @ (posedge RST_CPU) begin
         clockCnt = 0;
     end
 
@@ -33,7 +33,7 @@ module TESTBENCH (
 
     clk_div T_ClockDivider(.CLK_CPU(CLK_CPU),
         .CLK(clk),
-        .RST(RST_CPU)
+        .RST(RST_CPU),
         .SW15(sw_i[15]));
 
 endmodule
