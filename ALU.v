@@ -9,6 +9,8 @@ module ALU (
     input   [4:0]       ALUOp
 );
 
+integer i;
+
 initial begin
     Zero   = 0;
     ALURes = 0;
@@ -30,11 +32,11 @@ always@(DataIn1 or DataIn2 or ALUOp or shamt) begin
         `ALUOp_SRL:
         ALURes = DataIn2 >> shamt;
         `ALUOp_SLR:
-        for (int i = 0; i < 31; i++) begin
+        for (i = 0; i < 31; i=i+1) begin
             ALURes[i] = DataIn1[(i+DataIn2)%32];
         end
         `ALUOp_SRR:
-        for (int i = 0; i < 31; i++) begin
+        for (i = 0; i < 31; i=i+1) begin
             ALURes[i] = DataIn1[(i-DataIn2+32)%32];
         end
         `ALUOp_AND:
