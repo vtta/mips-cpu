@@ -1,8 +1,10 @@
 `include "signal_def.v"
 
-module MIPS_R2000(CLK,RST);
+module MIPS_R2000 (
+    input CLK,
+    input RST
+);
 
-    input CLK, RST;
 
     // InstructionMemory
     wire [31:0] instr;
@@ -157,14 +159,3 @@ module MIPS_R2000(CLK,RST);
         .o_sel(o_sel));
 
 endmodule
-
-
-
-
-
-
-
-
-
-
-

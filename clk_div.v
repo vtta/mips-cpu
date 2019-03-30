@@ -2,8 +2,8 @@
 module clk_div (
     input CLK,
     input RST,
-    //  input SW15,
-    output Clk_CPU
+    input SW15,
+    output CLK_CPU
 );
 
 // Clock divider
@@ -18,7 +18,7 @@ module clk_div (
                 clkdiv <= clkdiv + 1'b1;
         end
 
-//  assign Clk_CPU=(SW15)? clkdiv[8] : clkdiv[1];
-    assign Clk_CPU = clkdiv[8];
+    assign CLK_CPU=(SW15)?clkdiv[8]:clkdiv[1];
+    // assign CLK_CPU = clkdiv[8];
 
 endmodule
