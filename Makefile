@@ -7,7 +7,7 @@ TESTBENCH = MIPS_R2000_tb
 SRCS     = MIPS_R2000.v instruction_def.v ALU.v Control.v Extender.v
 SRCS    += GPR.v DataMemory.v InstructionMemory.v PCU.v
 SRCS    += signal_def.v Mux32_2x1.v Mux5_2x1.v
-# SRCS    +=clk_div seg7x16.v ctrl_encode_def.v
+SRCS    += clk_div.v seg7x16.v # ctrl_encode_def.v
 #------------------------------------------------------------------------------
 all: simulate
 
@@ -26,3 +26,4 @@ scansion: simulate
 
 clean:
 	rm -rf $(TESTBENCH).vvp $(TESTBENCH).vcd $(TESTBENCH)_log.txt
+

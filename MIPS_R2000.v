@@ -139,6 +139,23 @@ module MIPS_R2000(CLK,RST);
 
 
 
+
+    /*          LED Display            *\
+    -------------------------------------
+    | RegWrite | MemWrite | Display     |
+    -------------------------------------
+    |   1      |    0     | gprDataIn   |
+    |   0      |    1     | gprDataOut2 |
+    |   0      |    0     | pcOut       | */
+    wire [7:0]  o_seg,o_sel;
+    wire [31:0] displayData = (RegWrite)?
+        gprDataIn:((MemWrite)?gprDataOut2:pcOut);
+    seg7x16 U_seg7x16(.CLK(CLK),
+        .reset(RST),
+        .i_data(displayData),
+        .o_seg(o_seg),
+        .o_sel(o_sel));
+
 endmodule
 
 
