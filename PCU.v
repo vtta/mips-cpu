@@ -11,20 +11,15 @@ module PCU(
     input [31:0] BranchAddress,
     output [31:0] PCRegDataOut);
 
-reg [31:0] PC;
-
 initial begin
     // PC = 32'h0000_3000;
 end
 
 wire [31:0] PCRegDataIn;
-wire [31:0] PCRegDataOut = PC;
+reg [31:0] PCRegDataOut; // PC;
 
 wire [31:0] PCAdd4Out = PCRegDataOut + 4;
-wire [31:0] JumpAddress;
-assign JumpAddress[31:28]   = PCAdd4Out[31:28];
-assign JumpAddress[27:2]    = JumpTarget[25:0];
-assign JumpAddress[1:0]     = 2'b00;
+wire [31:0] JumpAddress = {PCAdd4Out[31:28], JumpTarget[25:0], 2'b00};
 
 wire [31:0] BranchAddressALUOut = PCAdd4Out + (BranchAddress<<2);
 wire BranchAddressMuxSelect = Branch & ALUZero;
@@ -41,12 +36,12 @@ Mux32_2x1 PC_JumpAddressMux(.select(Jump),
           .out(PCRegDataIn));
 
 always@(posedge RST) begin
-    PC <= 32'h0000_3000;
+    PCRegDataOut <= 32'h0000_3000;
 end
 
 
 always@(posedge CLK) begin
-    PC = PCRegDataIn;
+    PCRegDataOut = PCRegDataIn;
 end
 
 
