@@ -13,7 +13,7 @@ module TESTBENCH (
     initial begin
         $dumpfile("MIPS_R2000_tb.vcd");
         $dumpvars;
-        $readmemh("test_instr_13.txt", MIPS_R2000_tb.U_InstructionMemory.IMem ) ;
+        $readmemh("bubble-sort-mips.hex", MIPS_R2000_tb.U_InstructionMemory.IMem ) ;
         $monitor("PC\t\t%8X\nIR\t\t%8X\nClock\t\t%8X\n=====================================\n\n", MIPS_R2000_tb.U_PCU.PCRegDataOut, MIPS_R2000_tb.instr, clockCnt);
         clockCnt = 0;
     end

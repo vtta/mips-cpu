@@ -73,6 +73,7 @@
 `define ALUOp_LUI   5'b10001
 
 `define ALUOp_ADDU  `ALUOp_ADD
+`define ALUOp_ADDIU `ALUOp_ADD
 `define ALUOp_SUBU  `ALUOp_SUB
 `define ALUOp_ORI   `ALUOp_OR
 `define ALUOp_LW    `ALUOp_ADD
