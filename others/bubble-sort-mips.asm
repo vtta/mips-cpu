@@ -11,7 +11,7 @@ bubble_sort:
 #	.frame	$fp,48,$31		# vars= 40, regs= 1/0, args= 0, gp= 0
 #	.mask	0x40000000,-4
 #	.fmask	0x00000000,0
-	addiu	$sp,$0,0x1000 # test
+	addiu	$sp,$0,0x1000
 	addiu	$sp,$sp,-48
 	sw	$fp,44($sp)
 	move	$fp,$sp
@@ -106,6 +106,8 @@ $L2:
 	move	$sp,$fp
 	lw	$fp,44($sp)
 	addiu	$sp,$sp,48
+$end:
+	j	$end
 #	j	$31
 #	.end	bubble_sort
 #	.size	bubble_sort, .-bubble_sort
