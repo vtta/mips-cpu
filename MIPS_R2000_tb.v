@@ -2,12 +2,15 @@
 module TESTBENCH (
     input clk,
     input rstn,
-    input[15:0] sw_i
+    input[15:0] sw_i, 
+    output[15:0] led_o,
+    output[7:0] tubeSelect,
+    output[7:0] tubeDisplay
 );
 
     wire CLK_TB = clk;
     wire CLK_CPU;
-    wire RST_CPU = rstn;
+    wire RST_CPU = ~rstn;
     reg [31:0] clockCnt;
 
     initial begin
@@ -30,7 +33,8 @@ module TESTBENCH (
     end
 
     MIPS_R2000 MIPS_R2000_tb(.CLK(CLK_CPU),
-        .RST(RST_CPU));
+        .RST(RST_CPU),
+        .CtrlSignal(led_o));
 
     clk_div T_ClockDivider(.CLK_CPU(CLK_CPU),
         .CLK(CLK_TB),

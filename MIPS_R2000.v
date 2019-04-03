@@ -2,7 +2,8 @@
 
 module MIPS_R2000 (
     input CLK,
-    input RST
+    input RST,
+    output[15:0] CtrlSignal
 );
 
 
@@ -45,6 +46,9 @@ module MIPS_R2000 (
     wire    ALUSrc;
     wire    ExtOp;
     wire [4:0]  ALUOp;
+    // output
+    assign CtrlSignal = {2'b0,Jump,Branch,RegDst,RegWrite,MemRead,
+                        MemWrite,Mem2Reg,ALUSrc,ExtOp,ALUOp};
 
 
 
@@ -138,7 +142,6 @@ module MIPS_R2000 (
         .ALUOp(ALUOp),
         .OpCode(Op),
         .Funct(Funct) );
-
 
 
 
