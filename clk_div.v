@@ -18,7 +18,8 @@ module clk_div (
                 clkdiv <= clkdiv + 1'b1;
         end
 
-    assign CLK_CPU=(SW15)?clkdiv[8]:clkdiv[1];
-    // assign CLK_CPU = clkdiv[8];
+    // SW=1 => T=5.36s
+    // SW=1 => T=0.67s
+    assign CLK_CPU=(SW15)?clkdiv[29]:clkdiv[26];
 
 endmodule
