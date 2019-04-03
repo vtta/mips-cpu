@@ -153,6 +153,20 @@ begin
             endcase
         end // RTYPE
 
+        `INSTR_ADDIU_OP:
+        begin
+            RegDst      = `REG_DST_RT;
+            ExtOp       = `EXT_SIGNED;
+            ALUSrc      = `ALU_SRC_EXT;
+            ALUOp       = `ALUOp_ADDIU;
+            Mem2Reg     = 0;
+            RegWrite    = 1;
+            MemRead     = 0;
+            MemWrite    = 0;
+            Branch      = 0;
+            Jump        = 0;
+        end // ADDIU
+
         `INSTR_BEQ_OP: // 0x04
         begin
             // RegDst     = `REG_DST_RT;
