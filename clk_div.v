@@ -19,7 +19,7 @@ module clk_div (
         end
 
     // SW=1 => T=5.36s
-    // SW=1 => T=0.67s
-    assign CLK_CPU=(SW15)?clkdiv[29]:clkdiv[26];
+    // SW=1 => T=0.02s
+    assign CLK_CPU=(SW15)?clkdiv[29]:clkdiv[21];
 
 endmodule
