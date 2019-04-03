@@ -16,7 +16,8 @@ initial begin
 end
 
 wire [31:0] PCRegDataIn;
-reg [31:0] PCRegDataOut; // PC;
+reg [31:0] PCRegDataOut;
+reg [31:0] PC;
 
 wire [31:0] PCAdd4Out = PCRegDataOut + 4;
 wire [31:0] JumpAddress = {PCAdd4Out[31:28], JumpTarget[25:0], 2'b00};
@@ -36,12 +37,13 @@ Mux32_2x1 PC_JumpAddressMux(.select(Jump),
           .out(PCRegDataIn));
 
 always@(posedge RST) begin
-    PCRegDataOut <= 32'h0000_3000;
+    PC <= 32'h0000_3000;
 end
 
 
 always@(posedge CLK) begin
-    PCRegDataOut = PCRegDataIn;
+    PC = PCRegDataIn;
+    PCRegDataOut = PC;
 end
 
 
