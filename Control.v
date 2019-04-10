@@ -1,21 +1,38 @@
 `include "instruction_def.v"
 `include "signal_def.v"
 
-module Control(Jump,RegDst,Branch,MemRead,Mem2Reg,MemWrite,RegWrite,ALUSrc,ExtOp,ALUOp,OpCode,Funct);
+module Control(
+input [5:0]     OpCode,
+input [5:0]     Funct,
 
-input [5:0]     OpCode;
-input [5:0]     Funct;
+output reg      Jump,
+output reg      RegDst,
+output reg      Branch,
+output reg      MemRead,
+output reg      Mem2Reg,
+output reg      MemWrite,
+output reg      RegWrite,
+output reg      ALUSrc,
+output reg      ExtOp,
+output reg[4:0] ALUOp
+);
 
-output reg      Jump;
-output reg      RegDst;
-output reg      Branch;
-output reg      MemRead;
-output reg      Mem2Reg;
-output reg      MemWrite;
-output reg      RegWrite;
-output reg      ALUSrc;
-output reg      ExtOp;
-output reg[4:0] ALUOp;
+
+
+initial begin
+    Jump <= 0;
+    RegDst <= 0;
+    Branch <= 0;
+    MemRead <= 0;
+    Mem2Reg <= 0;
+    MemWrite <= 0;
+    RegWrite <= 0;
+    ALUSrc <= 0;
+    ExtOp <= 0;
+    ALUOp <= 4'b0;
+end
+
+
 
 always@(OpCode or Funct)
 begin
