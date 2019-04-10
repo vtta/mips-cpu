@@ -1,11 +1,13 @@
 
 module TESTBENCH (
-    input clk,
-    input rstn,
-    input[15:0] sw_i, 
-    output[15:0] led_o,
-    output[7:0] tubeSelect,
-    output[7:0] tubeDisplay
+`ifndef DEBUG
+input clk,
+input rstn,
+input[15:0] sw_i, 
+output[15:0] led_o,
+output[7:0] tubeSelect,
+output[7:0] tubeChar
+`endif
 );
 
     wire CLK_TB = clk;
@@ -50,13 +52,13 @@ module TESTBENCH (
     |   1      |    0     | gprDataIn   |
     |   0      |    1     | gprDataOut2 |
     |   0      |    0     | pcOut       | */
-    wire [7:0]  tubeDisplay,tubeSelect;
     wire [31:0] displayData = (MIPS_R2000_tb.RegWrite)?
         MIPS_R2000_tb.gprDataIn:((MIPS_R2000_tb.MemWrite)?MIPS_R2000_tb.gprDataOut2:MIPS_R2000_tb.pcOut);
+    wire [7:0]  tubeChar,tubeSelect;
     seg7x16 U_seg7x16(.CLK(CLK_TB),
         .RST(RST_CPU),
         .inputData(displayData),
-        .tubeDisplay(tubeDisplay),
+        .tubeChar(tubeChar),
         .tubeSelect(tubeSelect));
 
 

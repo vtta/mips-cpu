@@ -4,7 +4,7 @@ module seg7x16 (
     input RST,
     // input cs,
     input [31:0] inputData,
-    output  [7:0] tubeDisplay,
+    output  [7:0] tubeChar,
     output  [7:0] tubeSelect
 );
 
@@ -16,7 +16,7 @@ module seg7x16 (
     reg [7:0] tubeDisplayReg;
     wire tubeClock = cnt[14];
     assign tubeSelect  = tubeSelectReg;
-    assign tubeDisplay = tubeDisplayReg;
+    assign tubeChar = tubeDisplayReg;
 
 
     // 100MHz    -> 6103.5Hz 0.00016384s ?
