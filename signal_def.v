@@ -1,4 +1,7 @@
 
+`define DEBUG 1
+
+
 `define ALU_SRC_REG 1'b0
 `define ALU_SRC_EXT 1'b1
 
