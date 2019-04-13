@@ -14,12 +14,12 @@ module IDEXReg (
     input       RegWrite_in,
     input       Mem2Reg_in,
     // data
-    input[31:0] PC_in,
     input[31:0] Reg1_in,
     input[31:0] Reg2_in,
     input[31:0] Ext_in,
     input[4:0]  Rt_in,
     input[4:0]  Rd_in,
+    input[4:0]  shamt_in,
 
     // EX signal
     output      RegDst_out,
@@ -33,15 +33,15 @@ module IDEXReg (
     output      RegWrite_out,
     output      Mem2Reg_out,
     // data
-    output[31:0]PC_out,
     output[31:0]Reg1_out,
     output[31:0]Reg2_out,
     output[31:0]Ext_out,
     output[4:0] Rt_out,
-    output[4:0] Rd_out
+    output[4:0] Rd_out,
+    output[4:0] shamt_out
 );
 
-reg[149:0] StageReg;
+reg[122:0] StageReg;
 assign {
         RegDst_out,
         ALUOp_out[4:0],
@@ -51,20 +51,24 @@ assign {
         MemWrite_out,
         RegWrite_out,
         Mem2Reg_out,
-        PC_out     [31:0],
         Reg1_out   [31:0],
         Reg2_out   [31:0],
         Ext_out    [31:0],
         Rt_out     [4:0],
-        Rd_out     [4:0]
-    } = StageReg[149:0];
+        Rd_out     [4:0],
+        shamt_out  [4:0]
+    } = StageReg[122:0];
 
 always @(posedge rst) begin
-    StageReg <= 150'b0;
+    StageReg <= 123'b0;
+end
+
+initial begin
+    StageReg <= 123'b0;
 end
 
 always @(posedge clk) begin
-    StageReg[149:0] = {
+    StageReg[122:0] <= {
         RegDst_in,
         ALUOp_in[4:0],
         ALUSrc_in,
@@ -73,12 +77,12 @@ always @(posedge clk) begin
         MemWrite_in,
         RegWrite_in,
         Mem2Reg_in,
-        PC_in     [31:0],
         Reg1_in   [31:0],
         Reg2_in   [31:0],
         Ext_in    [31:0],
         Rt_in     [4:0],
-        Rd_in     [4:0]
+        Rd_in     [4:0],
+        shamt_out [4:0]
     };
 end
 

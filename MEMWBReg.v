@@ -33,8 +33,12 @@ always @(posedge rst) begin
     StageReg <= 71'b0;
 end
 
+initial begin
+    StageReg <= 71'b0;
+end
+
 always @(posedge clk) begin
-    StageReg[70:0] = {
+    StageReg[70:0] <= {
         RegWrite_in        ,
         Mem2Reg_in         ,
         Mem_in       [31:0],

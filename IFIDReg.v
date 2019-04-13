@@ -22,8 +22,12 @@ always @(posedge rst) begin
     StageReg <= 64'b0;
 end
 
+initial begin
+    StageReg <= 64'b0;
+end
+
 always @(posedge clk) begin
-    StageReg[63:0] = {
+    StageReg[63:0] <= {
         PC_in   [31:0],
         Instr_in[31:0]
     };
