@@ -1,15 +1,15 @@
 
-module InstructionMemory(Instruction,IMAdress);
-input [9:0] IMAdress;
-output [31:0]  Instruction;
+module InstructionMemory(
+    input[9:0]          IMAdress,
+    output reg[31:0]    IR
+);
 
-reg [31:0]  IMem[1024:0];
-reg [31:0]  IR;
+
+reg [31:0]  IMem[1023:0];
 
 always@(IMAdress) begin
-    IR = IMem[IMAdress];
+    IR <= IMem[IMAdress];
 end
 
-assign Instruction = IR;
 
 endmodule
