@@ -2,149 +2,131 @@
 
 module MIPS_R2000 (
     input CLK,
-    input RST,
-    output[15:0] CtrlSignal
+    input RST
 );
 
 
-    // InstructionMemory
-    wire [31:0] instr;
-    wire [31:0] pcOut;
-    wire [9:0]  imAddr  = pcOut[11:2];
-    wire [5:0]  Op      = instr[31:26];
-    wire [4:0]  rs      = instr[25:21];
-    wire [4:0]  rt      = instr[20:16];
-    wire [4:0]  rd      = instr[15:11];
-    wire [4:0]  shamt   = instr[10:6];
-    wire [5:0]  Funct   = instr[5:0];
-    wire [25:0] JumpTarget = instr[25:0];
-    // GPR
-    wire [4:0]  gprWriteRegister;
-    wire [31:0] gprDataIn;
-    wire [31:0] gprDataOut1;
-    wire [31:0] gprDataOut2;
-    // Extender
-    wire [15:0] extDataIn;
-    wire [31:0] extDataOut;
-    assign extDataIn = instr[15:0];
-    // ALU
-    wire        zero;
-    wire [31:0] aluDataIn2;
-    wire [31:0] aluDataOut;
-    // DataMemory
-    wire [4:0]  dmDataAddr;
-    wire [31:0] dmDataOut;
-    assign dmDataAddr = aluDataOut[5:2];
-    // Control
-    wire    Jump;
-    wire    Branch;
-    wire    RegDst;
-    wire    RegWrite;
-    wire    MemRead;
-    wire    MemWrite;
-    wire    Mem2Reg;
-    wire    ALUSrc;
-    wire    ExtOp;
-    wire [4:0]  ALUOp;
-    // output
-    assign CtrlSignal = {2'b0,Jump,Branch,RegDst,RegWrite,MemRead,
-                        MemWrite,Mem2Reg,ALUSrc,ExtOp,ALUOp};
-
-
-
-
     PCU U_PCU (
-        .RST          (RST       ),
-        .CLK          (CLK       ),
-        .Branch       (Branch    ),
-        .Jump         (Jump      ),
-        .ALUZero      (zero      ),
-        .Op           (Op        ),
-        .JumpTarget   (JumpTarget),
-        .BranchAddress(extDataOut),
-        .PCRegDataOut (pcOut     )
+        .clk       (CLK),
+        .rst       (RST),
+        .PCSrc     (U_EXMEMReg.Branch_out && U_EXMEMReg.Zero_out),
+        .Jump      (U_Ctrl.Jump),
+        .BranchAddr(U_IFIDReg.PC_out+(U_Extender.ExtOut<<2)),
+        .JmpAddr   ({U_IFIDReg.PC_out[31:28],U_IFIDReg.Instr_out[25:0],2'b00})
     );
 
 
-
     // Instruction Memory instantiation
-    InstructionMemory U_InstructionMemory(.Instruction(instr),
-        .IMAdress(imAddr) );
+    InstructionMemory U_InstructionMemory(
+        // due to memory limit, only use low 10 bits
+        .IMAdress(U_PCU.PC[11:2])
+    );
     // For vivado generated IM module
     // dist_mem_gen_0 U_InstructionMemory(.spo(instr),
-    //     .a(imAddr) );
+    //     .a(U_PCU.PC[11:2]) );
 
 
+    IFIDReg U_IFIDReg (
+        .clk(CLK),
+        .rst(RST),
+        .PC_in(U_PCU.PC+4),
+        .Instr_in(U_InstructionMemory.IR)
+    );
 
-    Mux5_2x1 U_WirteRegisterMux(.select(RegDst),
-        .in0(rt),
-        .in1(rd),
-        .out(gprWriteRegister) );
-    Mux32_2x1 U_WriteDataMux(.select(Mem2Reg),
-        .in0(aluDataOut),
-        .in1(dmDataOut),
-        .out(gprDataIn) );
+
     // Register File instantiation
-    GPR U_GPR(.DataOut1(gprDataOut1),
-        .DataOut2(gprDataOut2),
-        .CLK(CLK),
-        .WriteData(gprDataIn),
-        .RegWrite(RegWrite),
-        .WriteRegisterSelect(gprWriteRegister),
-        .ReadRegister1(rs),
-        .ReadRegister2(rt) );
-
-
-
-
-    Mux32_2x1 U_ALUDataIn1Mux(.select(ALUSrc),
-        .in0(gprDataOut2),
-        .in1(extDataOut),
-        .out(aluDataIn2) );
-    // ALU instantiation
-    ALU U_ALU(.ALURes(aluDataOut),
-        .Zero(zero),
-        .DataIn1(gprDataOut1),
-        .DataIn2(aluDataIn2),
-        .ALUOp(ALUOp),
-        .shamt(shamt) );
-
-
+    GPR U_GPR(
+        .clk            (CLK),
+        .rst            (RST),
+        .WriteData      (U_MEMWBReg.Mem2Reg_out?
+            U_MEMWBReg.Mem_out:U_MEMWBReg.ALU_out),
+        .RegWrite       (U_MEMWBReg.RegWrite_out),
+        .WriteRegister  (U_MEMWBReg.WriteReg_out),
+        .ReadRegister1  (U_IFIDReg.Instr_out[25:21]),
+        .ReadRegister2  (U_IFIDReg.Instr_out[20:16]) 
+    );
 
 
     // Extender instantiation
-    Extender U_Extender(.ExtOut(extDataOut),
-        .DataIn(extDataIn),
-        .ExtOp(ExtOp) );
+    Extender U_Extender(
+        .DataIn(U_IFIDReg.Instr_out[15:0]),
+        .ExtOp(U_Ctrl.ExtOp)
+    );
 
 
+    IDEXReg U_IDEXReg (
+        .clk         (CLK),
+        .rst         (RST),
+        .RegDst_in   (U_Ctrl.RegDst),
+        .ALUOp_in    (U_Ctrl.ALUOp),
+        .ALUSrc_in   (U_Ctrl.ALUSrc),
+        .Branch_in   (U_Ctrl.Branch),
+        .MemRead_in  (U_Ctrl.MemRead),
+        .MemWrite_in (U_Ctrl.MemWrite),
+        .RegWrite_in (U_Ctrl.RegWrite),
+        .Mem2Reg_in  (U_Ctrl.Mem2Reg),
+        .Reg1_in     (U_GPR.DataOut1),
+        .Reg2_in     (U_GPR.DataOut2),
+        .Ext_in      (U_Extender.ExtOut),
+        .Rt_in       (U_IFIDReg.Instr_out[20:16]),
+        .Rd_in       (U_IFIDReg.Instr_out[15:11]),
+        .shamt_in    (U_IFIDReg.Instr_out[10:6])
+    );
+
+
+    // ALU instantiation
+    ALU U_ALU(
+        .DataIn1(U_IDEXReg.Reg1_out),
+        .DataIn2(U_IDEXReg.ALUSrc_out?
+            U_IDEXReg.Ext_out:U_IDEXReg.Reg2_out),
+        .ALUOp(U_IDEXReg.ALUOp_out),
+        .shamt(U_IDEXReg.shamt_out) );
+
+
+    EXMEMReg U_EXMEMReg (
+        .clk         (CLK),
+        .rst         (RST),
+        .Branch_in   (U_IDEXReg.Branch_out),
+        .MemRead_in  (U_IDEXReg.MemRead_out),
+        .MemWrite_in (U_IDEXReg.MemWrite_out),
+        .RegWrite_in (U_IDEXReg.RegWrite_out),
+        .Mem2Reg_in  (U_IDEXReg.Mem2Reg_out),
+        .Zero_in     (U_ALU.Zero),
+        .ALU_in      (U_ALU.ALURes),
+        .Reg2_in     (U_IDEXReg.Reg2_out),
+        .WriteReg_in (U_IDEXReg.RegDst_out?
+            U_IDEXReg.Rd_out:U_IDEXReg.Rt_out)
+    );
 
 
     //Data Memory instantiation
-    DataMemory U_DataMemory(.DataOut(dmDataOut),
-        .DataAddr(dmDataAddr),
-        .DataIn(gprDataOut2),
-        .DMemW(MemWrite),
-        .DMemR(MemRead),
-        .CLK(CLK) );
+    DataMemory U_DataMemory(
+        .clk     (CLK),
+        .rst     (RST),
+        // due to memory limit, only use low 5 bits
+        .DataAddr(U_EXMEMReg.ALU_out[4:0]),
+        .DataIn  (U_EXMEMReg.Reg2_out),
+        .DMemW   (U_EXMEMReg.MemWrite_out),
+        .DMemR   (U_EXMEMReg.MemRead_out)
+    );
 
 
+    MEMWBReg U_MEMWBReg (
+        .clk         (CLK),
+        .rst         (RST),
+        .RegWrite_in (U_EXMEMReg.RegWrite_out),
+        .Mem2Reg_in  (U_EXMEMReg.Mem2Reg_out),
+        .Mem_in      (U_DataMemory.DataOut),
+        .ALU_in      (U_EXMEMReg.ALU_out),
+        .WriteReg_in (U_EXMEMReg.WriteReg_out)
+    );
 
 
     // Control instantiation
-    Control U_Ctrl(.Jump(Jump),
-        .RegDst(RegDst),
-        .Branch(Branch),
-        .MemRead(MemRead),
-        .Mem2Reg(Mem2Reg),
-        .MemWrite(MemWrite),
-        .RegWrite(RegWrite),
-        .ALUSrc(ALUSrc),
-        .ExtOp(ExtOp),
-        .ALUOp(ALUOp),
-        .OpCode(Op),
-        .Funct(Funct) );
-
+    Control U_Ctrl(
+        .OpCode(U_IFIDReg.Instr_out[31:26]),
+        .Funct(U_IFIDReg.Instr_out[5:0]) 
+    );
 
 
 endmodule
