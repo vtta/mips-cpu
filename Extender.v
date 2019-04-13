@@ -1,33 +1,14 @@
 
-module Extender(ExtOut,DataIn,ExtOp);
+module Extender(
+input  [15:0]       DataIn,
+input               ExtOp,
+output reg[31:0]    ExtOut
+);
 
-input [15:0] DataIn;
-input ExtOp;
-output reg[31:0] ExtOut;
 
-integer i;                    //逻辑计数
-
-always@(DataIn or ExtOp)
-begin
-    if(ExtOp == 0)
-    begin
-        for(i=0;i<32;i=i+1)
-        begin
-            if(i<16)
-                ExtOut[i] = DataIn[i];
-            else
-                ExtOut[i] = 0;
-        end
-    end
-    else
-    begin
-        for(i=0;i<32;i=i+1)
-        begin
-            if(i<16)
-                ExtOut[i] = DataIn[i];
-            else
-                ExtOut[i] = DataIn[15];
-        end
-    end
+always @( DataIn or ExtOp ) begin
+    ExtOut[31:0] <=  { ExtOp?{16{DataIn[15]}}:16'b0, DataIn[15:0] };
 end
+
+
 endmodule
