@@ -1,3 +1,3 @@
-MIPS_R2000_tb.vcd
-MIPS_R2000_tb.vvp
-MIPS_R2000_tb_log.txt
+*.vcd
+*.vvp
+*_log.txt
