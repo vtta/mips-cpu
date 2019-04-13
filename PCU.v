@@ -4,6 +4,8 @@ module PCU (
     input rst,          // Asynchronous reset active low
     
     input       PCSrc,
+    input       Jump,
+    input[31:0] BranchAddr,
     input[31:0] JmpAddr,
 
     output reg[31:0] PC
@@ -14,7 +16,7 @@ always@(posedge rst) begin
 end
 
 always@(posedge clk) begin
-    PC = (PCSrc)?JmpAddr:(PC+4);
+    PC <= Jump?JmpAddr:(PCSrc?BranchAddr:(PC+4));
 end
 
 
