@@ -2,15 +2,15 @@ module ConditionCheck (
     input[31:0] in0,
     input[31:0] in1,
 
-    output reg  BranchTaken
+    output reg  Equal
 );
 
 initial begin
-    BranchTaken <= 0;
+    Equal <= 0;
 end
 
 always @(*) begin
-    BranchTaken <= (in0 == in1);
+    Equal <= (in0 == in1);
 end
 
 endmodule
