@@ -8,13 +8,12 @@ module EXMEMReg (
     input       MemWrite_in,
     // WB signal
     input       RegWrite_in,
-    input       Mem2Reg_in,
     // ALU signal
     input       Zero_in,
     // data
     input[31:0] ALU_in,
-    input[31:0] Reg2_in,
-    input[4:0]  WriteReg_in,
+    input[31:0] FwdBOut_in,
+    input[4:0]  Rd_in,
 
     // MEM signal
     output      Branch_out,
@@ -22,48 +21,45 @@ module EXMEMReg (
     output      MemWrite_out,
     // WB signal
     output      RegWrite_out,
-    output      Mem2Reg_out,
     // ALU signal
     output       Zero_out,
     // data
     output[31:0]ALU_out,
-    output[31:0]Reg2_out,
-    output[4:0] WriteReg_out
+    output[31:0]FwdBOut_out,
+    output[4:0] Rd_out
 );
 
-// 75 bit
-reg[74:0] StageReg;
+// 74 bit
+reg[73:0] StageReg;
 assign {
-    Branch_out         ,
-    MemRead_out        ,
-    MemWrite_out       ,
-    RegWrite_out       ,
-    Mem2Reg_out        ,
-    Zero_out           ,
-    ALU_out     [31:0] ,
-    Reg2_out    [31:0] ,
-    WriteReg_out[4:0]
-} = StageReg    [74:0];
+    Branch_out            ,
+    MemRead_out           ,
+    MemWrite_out          ,
+    RegWrite_out          ,
+    Zero_out              ,
+    ALU_out         [31:0],
+    FwdBOut_out     [31:0],
+    Rd_out          [4:0]
+} = StageReg;
 
 always @(posedge rst) begin
-    StageReg <= 75'b0;
+    StageReg <= 74'b0;
 end
 
 initial begin
-    StageReg <= 75'b0;
+    StageReg <= 74'b0;
 end
 
 always @(posedge clk) begin
-    StageReg[74:0] <= {
+    StageReg <= {
         Branch_in         ,
         MemRead_in        ,
         MemWrite_in       ,
         RegWrite_in       ,
-        Mem2Reg_in        ,
         Zero_in           ,
         ALU_in      [31:0],
-        Reg2_in     [31:0],
-        WriteReg_in [4:0]
+        FwdBOut_in  [31:0],
+        Rd_in       [4:0]
     };
 end
 

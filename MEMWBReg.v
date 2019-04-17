@@ -4,30 +4,30 @@ module MEMWBReg (
     input       rst,    // Asynchronous reset
     // WB signal
     input       RegWrite_in,
-    input       Mem2Reg_in,
+    input       MemRead_in,
     // data
     input[31:0] Mem_in,
     input[31:0] ALU_in,
-    input[4:0]  WriteReg_in,
+    input[4:0]  Rd_in,
 
     // WB signal
     output      RegWrite_out,
-    output      Mem2Reg_out,
+    output      MemRead_out,
     // data
     output[31:0]Mem_out,
     output[31:0]ALU_out,
-    output[4:0] WriteReg_out
+    output[4:0] Rd_out
 );
 
 // 71 bit
 reg[70:0] StageReg;
 assign {
     RegWrite_out        ,
-    Mem2Reg_out         ,
+    MemRead_out         ,
     Mem_out       [31:0],
     ALU_out       [31:0],
-    WriteReg_out  [4:0]
-} = StageReg      [70:0];
+    Rd_out        [4:0]
+} = StageReg;
 
 always @(posedge rst) begin
     StageReg <= 71'b0;
@@ -38,12 +38,12 @@ initial begin
 end
 
 always @(posedge clk) begin
-    StageReg[70:0] <= {
+    StageReg <= {
         RegWrite_in        ,
-        Mem2Reg_in         ,
+        MemRead_in         ,
         Mem_in       [31:0],
         ALU_in       [31:0],
-        WriteReg_in  [4:0]
+        Rd_in        [4:0]
     };
 end
 
