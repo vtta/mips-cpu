@@ -9,6 +9,7 @@ SRCS    += GPR.v DataMemory.v InstructionMemory.v PCU.v
 SRCS    += signal_def.v
 SRCS    += clk_div.v seg7x16.v # ctrl_encode_def.v
 SRCS    += IFIDReg.v IDEXReg.v EXMEMReg.v MEMWBReg.v
+SRCS    += ForwardingUnit.v HazardUnit.v ConditionCheck.v
 #------------------------------------------------------------------------------
 all: simulate
 
