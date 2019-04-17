@@ -66,13 +66,15 @@ module MIPS_R2000 (
     );
 
 
-
+    `ifdef DEBUG
     // Instruction Memory instantiation
     InstructionMemory U_InstructionMemory(.Instruction(instr),
         .IMAdress(imAddr) );
+    `else
     // For vivado generated IM module
-    // dist_mem_gen_0 U_InstructionMemory(.spo(instr),
-    //     .a(imAddr) );
+    dist_mem_gen_0 U_InstructionMemory(.spo(instr),
+        .a(imAddr) );
+    `endif
 
 
 
