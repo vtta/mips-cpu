@@ -28,14 +28,13 @@ output[15:0] led_o
     `endif
 
     assign led_o =  {
-        2'b0,
+        3'b0,
         U_MIPS_R2000.U_Ctrl.Jump,
         U_MIPS_R2000.U_Ctrl.Branch,
         U_MIPS_R2000.U_Ctrl.RegDst,
         U_MIPS_R2000.U_Ctrl.RegWrite,
         U_MIPS_R2000.U_Ctrl.MemRead,
         U_MIPS_R2000.U_Ctrl.MemWrite,
-        U_MIPS_R2000.U_Ctrl.Mem2Reg,
         U_MIPS_R2000.U_Ctrl.ALUSrc,
         U_MIPS_R2000.U_Ctrl.ExtOp,
         U_MIPS_R2000.U_Ctrl.ALUOp
@@ -44,9 +43,9 @@ output[15:0] led_o
 
     `ifdef DEBUG
     initial begin
-        $dumpfile("U_MIPS_R2000.vcd");
+        $dumpfile("MIPS_R2000_tb.vcd");
         $dumpvars;
-        $readmemh("others/test_instr_6.txt", 
+        $readmemh("others/test_instr_13.txt", 
             U_MIPS_R2000.U_InstructionMemory.IMem 
         );
         U_MIPS_R2000.U_IFIDReg.StageReg = 0;
