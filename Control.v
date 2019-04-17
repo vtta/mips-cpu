@@ -13,7 +13,8 @@ output reg      MemWrite,
 output reg      RegWrite,
 output reg      ALUSrc,
 output reg      ExtOp,
-output reg[4:0] ALUOp
+output reg[4:0] ALUOp,
+output          nBranch
 );
 
 
@@ -30,7 +31,7 @@ initial begin
     ALUOp <= 5'b0;
 end
 
-
+assign nBranch = (OpCode == `INSTR_BNE_OP);
 
 always@(OpCode or Funct)
 begin
