@@ -9,7 +9,6 @@ output reg      Jump,
 output reg      RegDst,
 output reg      Branch,
 output reg      MemRead,
-output reg      Mem2Reg,
 output reg      MemWrite,
 output reg      RegWrite,
 output reg      ALUSrc,
@@ -24,12 +23,11 @@ initial begin
     RegDst <= 0;
     Branch <= 0;
     MemRead <= 0;
-    Mem2Reg <= 0;
     MemWrite <= 0;
     RegWrite <= 0;
     ALUSrc <= 0;
     ExtOp <= 0;
-    ALUOp <= 4'b0;
+    ALUOp <= 5'b0;
 end
 
 
@@ -47,7 +45,6 @@ begin
                     ExtOp       <= `EXT_SIGNED;
                     ALUSrc      <= `ALU_SRC_REG;
                     ALUOp       <= `ALUOp_ADD;
-                    Mem2Reg     <= 0;
                     RegWrite    <= 1;
                     MemRead     <= 0;
                     MemWrite    <= 0;
@@ -59,7 +56,6 @@ begin
                 begin
                     RegDst      <= `REG_DST_RD;
                     ALUSrc      <= `ALU_SRC_REG;
-                    Mem2Reg     <= 0;
                     RegWrite    <= 1;
                     MemRead     <= 0;
                     MemWrite    <= 0;
@@ -75,7 +71,6 @@ begin
                     ExtOp       <= `EXT_SIGNED;
                     ALUSrc      <= `ALU_SRC_REG;
                     ALUOp       <= `ALUOp_SUB;
-                    Mem2Reg     <= 0;
                     RegWrite    <= 1;
                     MemRead     <= 0;
                     MemWrite    <= 0;
@@ -87,7 +82,6 @@ begin
                 begin
                     RegDst      <= `REG_DST_RD;
                     ALUSrc      <= `ALU_SRC_REG;
-                    Mem2Reg     <= 0;
                     RegWrite    <= 1;
                     MemRead     <= 0;
                     MemWrite    <= 0;
@@ -103,7 +97,6 @@ begin
                     // ExtOp       <= `EXT_SIGNED;
                     ALUSrc      <= `ALU_SRC_REG;
                     ALUOp       <= `ALUOp_SLL;
-                    Mem2Reg     <= 0;
                     RegWrite    <= 1;
                     MemRead     <= 0;
                     MemWrite    <= 0;
@@ -117,7 +110,6 @@ begin
                     // ExtOp       <= `EXT_SIGNED;
                     ALUSrc      <= `ALU_SRC_REG;
                     ALUOp       <= `ALUOp_SRL;
-                    Mem2Reg     <= 0;
                     RegWrite    <= 1;
                     MemRead     <= 0;
                     MemWrite    <= 0;
@@ -131,7 +123,6 @@ begin
                     // ExtOp       <= `EXT_SIGNED;
                     ALUSrc      <= `ALU_SRC_REG;
                     ALUOp       <= `ALUOp_SLT;
-                    Mem2Reg     <= 0;
                     RegWrite    <= 1;
                     MemRead     <= 0;
                     MemWrite    <= 0;
@@ -145,7 +136,6 @@ begin
                     // ExtOp       <= `EXT_SIGNED;
                     ALUSrc      <= `ALU_SRC_REG;
                     ALUOp       <= `ALUOp_AND;
-                    Mem2Reg     <= 0;
                     RegWrite    <= 1;
                     MemRead     <= 0;
                     MemWrite    <= 0;
@@ -159,7 +149,6 @@ begin
                     // ExtOp       <= `EXT_SIGNED;
                     ALUSrc      <= `ALU_SRC_REG;
                     ALUOp       <= `ALUOp_OR;
-                    Mem2Reg     <= 0;
                     RegWrite    <= 1;
                     MemRead     <= 0;
                     MemWrite    <= 0;
@@ -176,7 +165,6 @@ begin
             ExtOp       <= `EXT_SIGNED;
             ALUSrc      <= `ALU_SRC_EXT;
             ALUOp       <= `ALUOp_ADDIU;
-            Mem2Reg     <= 0;
             RegWrite    <= 1;
             MemRead     <= 0;
             MemWrite    <= 0;
@@ -188,7 +176,6 @@ begin
         begin
             // RegDst     <= `REG_DST_RT;
             ALUSrc      <= `ALU_SRC_REG;
-            Mem2Reg     <= 0;
             RegWrite    <= 0;
             MemRead     <= 0;
             MemWrite    <= 0;
@@ -204,7 +191,6 @@ begin
             ExtOp       <= `EXT_SIGNED;
             ALUSrc      <= `ALU_SRC_REG;
             ALUOp       <= `ALUOp_BNE;
-            Mem2Reg     <= 0;
             RegWrite    <= 0;
             MemRead     <= 0;
             MemWrite    <= 0;
@@ -218,7 +204,6 @@ begin
             ExtOp       <= `EXT_SIGNED;
             ALUSrc      <= `ALU_SRC_EXT;
             ALUOp       <= `ALUOp_SLTI;
-            Mem2Reg     <= 0;
             RegWrite    <= 1;
             MemRead     <= 0;
             MemWrite    <= 0;
@@ -230,7 +215,6 @@ begin
         begin
             RegDst      <= `REG_DST_RT;
             ALUSrc      <= `ALU_SRC_EXT;
-            Mem2Reg     <= 0;
             RegWrite    <= 1;
             MemRead     <= 0;
             MemWrite    <= 0;
@@ -244,7 +228,6 @@ begin
         begin
             RegDst      <= `REG_DST_RT;
             ALUSrc      <= `ALU_SRC_EXT;
-            Mem2Reg     <= 1;
             RegWrite    <= 1;
             MemRead     <= 1;
             MemWrite    <= 0;
@@ -260,7 +243,6 @@ begin
             ExtOp       <= `EXT_SIGNED;
             ALUSrc      <= `ALU_SRC_EXT;
             ALUOp       <= `ALUOp_LUI;
-            Mem2Reg     <= 0;
             RegWrite    <= 1;
             MemRead     <= 0;
             MemWrite    <= 0;
@@ -272,7 +254,6 @@ begin
         begin
             RegDst      <= `REG_DST_RT;
             ALUSrc      <= `ALU_SRC_EXT;
-            Mem2Reg     <= 0;
             RegWrite    <= 0;
             MemRead     <= 0;
             MemWrite    <= 1;
@@ -288,7 +269,6 @@ begin
             // ExtOp       <= `EXT_SIGNED;
             // ALUSrc      <= `ALU_SRC_REG;
             // ALUOp       <= `ALUOp_BNE;
-            Mem2Reg     <= 0;
             RegWrite    <= 0;
             MemRead     <= 0;
             MemWrite    <= 0;
