@@ -3,6 +3,7 @@ module PCU (
     // input clk_en,    // Clock Enable
     input rst,          // Asynchronous reset active low
     
+    input       Hazard,
     input       PCSrc,
     input       Jump,
     input[31:0] BranchAddr,
@@ -16,7 +17,7 @@ always@(posedge rst) begin
 end
 
 always@(posedge clk) begin
-    PC <= Jump?JmpAddr:(PCSrc?BranchAddr:(PC+4));
+    PC <= Jump?JmpAddr:(PCSrc?BranchAddr:((Hazard)?PC:PC+4));
 end
 
 
