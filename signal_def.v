@@ -16,6 +16,11 @@
 `define IMMEDIATE(instr) \
     (instr[15:0])
 
+`define ForwardingMux( sel, i0, i1, i2 ,i3 ) \
+    ( (sel==2'b00)?i0                        \
+        :( (sel==2'b01)?i1                   \
+                :( (sel==2'b10)?i2:i3 )) )
+
 
 `define ALU_SRC_REG 1'b0
 `define ALU_SRC_EXT 1'b1
