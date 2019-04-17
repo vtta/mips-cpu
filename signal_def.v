@@ -1,6 +1,21 @@
 
 `define DEBUG 1
 
+`define OP(instr) \
+    (instr[31:26])
+`define RS(instr) \
+    (instr[25:21])
+`define RT(instr) \
+    (instr[20:16])
+`define RD(instr) \
+    (instr[15:11])
+`define SHAMT(instr) \
+    (instr[10:6])
+`define FUNCT(instr) \
+    (instr[5:0])
+`define IMMEDIATE(instr) \
+    (instr[15:0])
+
 
 `define ALU_SRC_REG 1'b0
 `define ALU_SRC_EXT 1'b1
