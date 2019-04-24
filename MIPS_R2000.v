@@ -147,7 +147,7 @@ module MIPS_R2000 (
         .clk     (CLK),
         .rst     (RST),
         // due to memory limit, only use low 5 bits
-        .DataAddr(U_EXMEMReg.ALU_out[4:0]),
+        .DataAddr(U_EXMEMReg.ALU_out[6:2]),
         .DataIn  (U_EXMEMReg.FwdBOut_out ),
         .DMemW   (U_EXMEMReg.MemWrite_out),
         .DMemR   (U_EXMEMReg.MemRead_out )
