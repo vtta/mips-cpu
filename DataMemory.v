@@ -29,7 +29,7 @@ always @(posedge rst) begin
     end
 end
 
-always@(posedge clk)
+always@(negedge clk)
 begin
     if(DMemW) begin
         DataMemory[DataAddr] <= DataIn;

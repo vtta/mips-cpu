@@ -31,11 +31,10 @@ always @(posedge rst) begin
     end
 end
 
-always@(posedge clk)
+always@(negedge clk)
 begin
-    gprRegisters[0] <= 0;
     if(RegWrite) begin
-        gprRegisters[WriteRegister] <= WriteData;
+        gprRegisters[WriteRegister] <= (WriteRegister)?WriteData:32'b0;
     end
 end
 
