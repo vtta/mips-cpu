@@ -1,11 +1,29 @@
 # mips-cpu
 Verilog implementation of a MIPS-R2000 CPU, based on the concept in [this book](<https://www.elsevier.com/books/computer-organization-and-design-mips-edition/patterson/978-0-12-407726-3>)
 
-Currently supported instructions:
+# Currently supported instructions:
 
-​	``` lw sw addu subu ori beq lui sll srl bne j slt slti and or ```
+``` lw sw lui  ``` 
 
+ ```add addu addiu ```
 
+ ```sub subu ```
+
+ ```and or ori ```
+
+ ```beq bne j  ```
+
+ ```sll srl ```
+
+ ```slt slti ```
+
+# Features
+
+- Implemented in the 5-stage pipeline scheme.
+
+- Branch or jump instructions are handled in ID stage. 
+- Full data forwarding, include forwarding to ID stage for branch instructions. 
+- Hazard detection and stall. 
 
 ## Usage
 
