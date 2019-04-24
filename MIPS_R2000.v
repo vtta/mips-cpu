@@ -111,8 +111,8 @@ module MIPS_R2000 (
         .DataIn1(
             `ForwardingMux(
                 U_ForwardingUnit.ForwardA,
-                U_GPR.WriteData,
                 U_IDEXReg.Reg1_out,
+                U_GPR.WriteData,
                 U_EXMEMReg.ALU_out, 0) ),
         .DataIn2(U_IDEXReg.ALUSrc_out?
             U_IDEXReg.Ext_out:U_EXMEMReg.FwdBOut_in),
@@ -130,7 +130,7 @@ module MIPS_R2000 (
         .RegWrite_in (U_IDEXReg.RegWrite_out),
         .Zero_in     (U_ALU.Zero            ),
         .ALU_in      (U_ALU.ALURes          ),
-        .FwdBOut_in     (
+        .FwdBOut_in  (
             `ForwardingMux(
                 U_ForwardingUnit.ForwardB,
                 U_IDEXReg.Reg2_out,
