@@ -1,6 +1,11 @@
 module HazardUnit (
     input      Jump,
     input      BranchTaken,
+    input      IDMemRead,
+    input[4:0] IFRs,
+    input[4:0] IFRt,
+    input[4:0] IDRt,
+
 
     output reg Hazard
 );
@@ -11,7 +16,15 @@ end
 
 always @(*) begin
 
-    Hazard <= Jump || BranchTaken;
+
+    if (IDMemRead
+        && (IDRt == IFRs
+            || IDRt == IFRt) ) begin
+        Hazard <= 1;
+    end else begin
+        Hazard <= Jump || BranchTaken;
+    end
+
 
 end
 

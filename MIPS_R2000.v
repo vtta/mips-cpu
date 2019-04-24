@@ -43,8 +43,12 @@ module MIPS_R2000 (
 
 
     HazardUnit U_HazardUnit (
-        .Jump       (U_Ctrl.Jump),
-        .BranchTaken(U_PCU.PCSrc)
+        .Jump       (U_Ctrl.Jump   ),
+        .BranchTaken(U_PCU.PCSrc   ),
+        .IDMemRead  (U_Ctrl.MemRead),
+        .IFRs       (`RS(U_IFIDReg.Instr_in) ),
+        .IFRt       (`RT(U_IFIDReg.Instr_in) ),
+        .IDRt       (`RT(U_IFIDReg.Instr_out))
     );
 
 
