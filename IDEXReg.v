@@ -82,7 +82,7 @@ always @(posedge clk) begin
         Rs_in     [4:0],
         Rt_in     [4:0],
         Rd_in     [4:0],
-        shamt_out [4:0]
+        shamt_in  [4:0]
     };
 end
 
