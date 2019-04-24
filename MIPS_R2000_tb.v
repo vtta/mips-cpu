@@ -84,8 +84,8 @@ output[15:0] led_o
                 U_MIPS_R2000.U_GPR.gprRegisters[i*4+3]
             );
         end
-
-        for(i=0;i<4;i=i+1) begin
+        $display("");
+        for(i=0;i<8;i=i+1) begin
             $display("M[%2d-%2d]  %8X  %8X  %8X  %8X",i*4,i*4+3,
                 U_MIPS_R2000.U_DataMemory.DataMemory[i*4+0],
                 U_MIPS_R2000.U_DataMemory.DataMemory[i*4+1],
@@ -93,7 +93,7 @@ output[15:0] led_o
                 U_MIPS_R2000.U_DataMemory.DataMemory[i*4+3]
             );
         end
-
+        $display("");
         $display("Clock     %8X", cycles);
         $display("PC        %8X", U_MIPS_R2000.U_PCU.PC);
         $display("IR        %8X", U_MIPS_R2000.U_InstructionMemory.IR);
@@ -107,7 +107,7 @@ output[15:0] led_o
         end
 
         if(U_MIPS_R2000.U_DataMemory.DMemW) begin
-            $display("M[ %4X]  %8X",
+            $display("M[ %4d]  %8X",
                 U_MIPS_R2000.U_DataMemory.DataAddr,
                 U_MIPS_R2000.U_DataMemory.DataIn
             );

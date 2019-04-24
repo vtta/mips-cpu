@@ -106,8 +106,8 @@ $L2:
 	move	$sp,$fp
 	lw	$fp,44($sp)
 	addiu	$sp,$sp,48
-$end:
-	j	$end
+$spin:
+	j	$spin
 #	j	$31
 #	.end	bubble_sort
 #	.size	bubble_sort, .-bubble_sort
