@@ -18,6 +18,7 @@ always @(*) begin
 
 
     if (IDMemRead
+    	&& (IDRt != 0)
         && (IDRt == IFRs
             || IDRt == IFRt) ) begin
         Hazard <= 1;
